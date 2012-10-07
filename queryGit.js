@@ -15,9 +15,9 @@ function doQuery(username, project)
 	//	console.log("Got Matt's value=" + data["matt"] + " from server!!!");
 	//});
 	
-	mock_ajax(username, project, function(data) {
-		print_data2(data);
-	})
+	//mock_ajax(username, project, function(data) {
+	//	print_data2(data);
+	//});
 	
 	mock_ajax(username, project, function(data) {
 		create_treemap(data);
@@ -25,10 +25,11 @@ function doQuery(username, project)
 }
 
 function mock_ajax(username, project, callback) {
-	data = get_mock_data2();
+	data = get_data_from_file();
     callback(data);
 }
 
+/*
 function get_mock_data()
 {
 	var dict = {};
@@ -38,6 +39,16 @@ function get_mock_data()
 	dict.dogbert = 3;
 	dict.garfield = 0;
 	return dict;
+}
+*/
+
+function get_data_from_file()
+{
+	var json = $.getJSON("unemploy-states.json");
+	var data = eval("(" +json.responseText + ")");
+
+	console.log(data["name"]); // FIXME
+	alert("still ok");
 }
 
 function get_mock_data2()
