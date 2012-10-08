@@ -11,13 +11,6 @@ function real_ajax(username, project, callback) {
 function doQuery(username, project)
 {
 	console.log("doQuery called!  username = " + username + " project = " + project);	
-	//mock_ajax(username, project, function(data) {
-	//	console.log("Got Matt's value=" + data["matt"] + " from server!!!");
-	//});
-	
-	//mock_ajax(username, project, function(data) {
-	//	print_data2(data);
-	//});
 	
 	mock_ajax(username, project, function(data) {
 		create_treemap(data);
@@ -25,36 +18,32 @@ function doQuery(username, project)
 }
 
 function mock_ajax(username, project, callback) {
-	data = get_data_from_file();
-    callback(data);
+	get_data_from_file(callback);
 }
 
-/*
-function get_mock_data()
+function get_data_from_file(callback)
 {
-	var dict = {};
-	dict.avi = 10;
-	dict.jj = 20;
-	dict.matt = 35;
-	dict.dogbert = 3;
-	dict.garfield = 0;
-	return dict;
-}
-*/
-
-function get_data_from_file()
-{
-	var json = $.getJSON("unemploy-states.json");
-	var data = eval("(" +json.responseText + ")");
-
-	console.log(data["name"]); // FIXME
+	var url = 'file:///Users/avi/Desktop/html-stuff/data/unemploy-states.json';
+	// chrome error msg: Cross origin requests are only supported for HTTP.
+	// note: THIS WORKS IN SAFARI! (chrome is persnickety so I'll need to install a webserver)
+	
+	//var url = 'http://www.verisi.com/resources/data/unemploy-states-json.txt';
+	// chrome error msg: Origin null is not allowed by Access-Control-Allow-Origin.
+	
+	$.getJSON(url, function(data) {
+		console.log("data = " + data);
+   	    callback(data);
+	});
+	
 	alert("still ok");
 }
+
+
 
 function get_mock_data2()
 {
 	var data = [{"name":"levelone","elements": [
-	    	{"name":"one", "sizes":12, "time":2},
+	    {"name":"one", "sizes":12, "time":2},
     	{"name":"aatwo", "sizes":18,"time":12},
     	{"name":"bbbtwo", "sizes":18,"time":28},
     	{"name":"wwwthree","sizes":2,"time":10},
